@@ -27,11 +27,21 @@ fontSize:'14px',
 LineHeight:'17px',
 border:'0',
 },
+profit: {
+  color: '#00CA39',
+  border:'0',
+},
+
+loss: {
+  color:'#E44067',
+  border:'0',
+},
 
 data: {
 height:'65px',
 "&:nth-child(odd)": {
     backgroundColor:'rgba(238, 242, 245, 0.4)',
+    border:'0',
 },
 }
 });
@@ -59,11 +69,11 @@ function MainPage() {
       <Container>
       <Table>
       <colgroup>
-      <col style={{width:'34%'}}/>
-        <col style={{width:'22%'}}/>
-        <col style={{width:'22%'}}/>
-        <col style={{width:'22%'}}/>
-        <col style={{width:'22%'}}/>
+      <col style={{width:'20%'}}/>
+        <col style={{width:'20%'}}/>
+        <col style={{width:'20%'}}/>
+        <col style={{width:'20%'}}/>
+        <col style={{width:'20'}}/>
       </colgroup>
         <TableHead>
           <TableRow>
@@ -80,12 +90,12 @@ function MainPage() {
               <TableCell className={classes.entry}component="th" scope="row">
                 <UserImg>
                   <img src={row.avatar}></img>
-                <span>{row.first_name} {row.last_name}</span>
+                <span>{row.first_name} row.last_name}</span>
                 </UserImg>
               </TableCell>
               <TableCell className={classes.entry}>12/3/12</TableCell>
-              <TableCell className={classes.entry}>${Math.random().toFixed(2)}</TableCell>
-              <TableCell className={classes.entry}>${Math.random().toFixed(2)}</TableCell>
+              <TableCell className={classes.entry,classes.profit}>${Math.random().toFixed(2)}</TableCell>
+              <TableCell className={classes.entry,classes.loss}>${Math.random().toFixed(2)}</TableCell>
               <TableCell className={classes.entry}>{row.email}</TableCell>
             </TableRow>
           ))}
