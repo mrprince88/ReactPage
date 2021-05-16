@@ -8,7 +8,6 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Header from "./Header.js";
 
-
 const useStyles = makeStyles({
 head: {
   color: '#878787',
@@ -90,7 +89,7 @@ function MainPage() {
               <TableCell className={classes.entry}component="th" scope="row">
                 <UserImg>
                   <img src={row.avatar}></img>
-                <span>{row.first_name} row.last_name}</span>
+                <span>{row.first_name} {row.last_name}</span>
                 </UserImg>
               </TableCell>
               <TableCell className={classes.entry}>12/3/12</TableCell>
