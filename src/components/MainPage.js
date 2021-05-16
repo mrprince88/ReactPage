@@ -51,16 +51,20 @@ class Hello extends Component {
     users: null,
     total: null,
     per_page: null,
-    current_page: 1,
+    current_page: 0,
   }
 
 
   componentWillMount() {
     this.makeHttpRequestWithPage(1);
+    this.render();
   }
 
 
   makeHttpRequestWithPage = async pageNumber => {
+    console.log(this.state.current_page+" "+pageNumber);
+    if(this.state.current_page===pageNumber)
+    return;
     const response=await fetch(`https://reqres.in/api/users?page=${pageNumber}`);
     const data = await response.json();
     this.setState({
@@ -69,7 +73,6 @@ class Hello extends Component {
       per_page: data.per_page,
       current_page: data.page,
     });
-    this.render();
   }
 
   render() {
@@ -77,7 +80,6 @@ class Hello extends Component {
     const {users}=this.state;
     const {current_page}=this.state;
     const {total}=this.state;
-    console.log(users);
     return (
     <MainPart>
       <Header />

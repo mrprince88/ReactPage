@@ -21,14 +21,14 @@ padding-left: 82px;
 padding-right: 73px; 
 margin-bottom: 38px;
 display: flex;
-h {
+h1 {
 font-family: Lato,
 font-weight: 400,
 display: flex,
 }
 div {
   margin-left: auto;
-  order:2;
+  order:1;
 }
 .btn1 {
 width: 67.45px;
