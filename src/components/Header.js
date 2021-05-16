@@ -4,7 +4,7 @@ import styled from 'styled-components';
 function Header() {
     return (
             <Heading>
-           <h>Overview</h>
+           <h1>Overview</h1>
            <div>
            <button className='btn2'>...</button>
            <button className='btn1'>Add</button>

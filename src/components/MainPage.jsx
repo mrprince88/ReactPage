@@ -1,5 +1,5 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import React, { Component } from 'react';
+import { withStyles } from '@material-ui/core/styles';
 import styled from 'styled-components'
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -8,7 +8,7 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Header from "./Header.js";
 
-const useStyles = makeStyles({
+const useStyles = theme=>({
 head: {
   color: '#878787',
   fontSize:'16px',
@@ -44,35 +44,51 @@ height:'65px',
 },
 }
 });
+class Hello extends Component {
 
-function MainPage() {
-  const classes = useStyles();
-  const [rows, setUsers] = React.useState([]);
-  const [totalPages,setTotalPages]= React.useState([]);
-  const [page,setPage]=React.useState([]);
-  const f = async () => {
-    const res = await fetch("https://reqres.in/api/users/?page=2");
-    const json = await res.json();
-    setUsers(json.data);
-    setPage(json.page);
-    setTotalPages(json.total_pages);
-  };
-    React.useEffect(() => {
-      f();
-    }, []);
-  
-    console.log(page);
+
+  state = {
+    users: null,
+    total: null,
+    per_page: null,
+    current_page: 1,
+  }
+
+
+  componentWillMount() {
+    this.makeHttpRequestWithPage(1);
+  }
+
+
+  makeHttpRequestWithPage = async pageNumber => {
+    const response=await fetch(`https://reqres.in/api/users?page=${pageNumber}`);
+    const data = await response.json();
+    this.setState({
+      users: data.data,
+      total: data.total_pages,
+      per_page: data.per_page,
+      current_page: data.page,
+    });
+    this.render();
+  }
+
+  render() {
+    const { classes } = this.props;    
+    const {users}=this.state;
+    const {current_page}=this.state;
+    const {total}=this.state;
+    console.log(users);
     return (
-        <MainPart>
+    <MainPart>
       <Header />
       <Container>
       <Table>
       <colgroup>
-      <col style={{width:'20%'}}/>
         <col style={{width:'20%'}}/>
         <col style={{width:'20%'}}/>
         <col style={{width:'20%'}}/>
-        <col style={{width:'20'}}/>
+        <col style={{width:'20%'}}/>
+        <col style={{width:'20%'}}/>
       </colgroup>
         <TableHead>
           <TableRow>
@@ -84,7 +100,7 @@ function MainPage() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
+          {users!=null? users.map((row) => (
             <TableRow className={classes.data} key={row.id}>
               <TableCell className={classes.entry}component="th" scope="row">
                 <UserImg>
@@ -97,20 +113,22 @@ function MainPage() {
               <TableCell className={classes.entry,classes.loss}>${Math.random().toFixed(2)}</TableCell>
               <TableCell className={classes.entry}>{row.email}</TableCell>
             </TableRow>
-          ))}
+          )):""}
         </TableBody>
       </Table>
       <Footer>
-        <img src='/images/back.svg'></img>
-        <span>{page}</span> of<span>{totalPages}</span>
-        <img src='/images/next.svg'></img>
+        <img src='/images/back.svg'onClick={() => this.makeHttpRequestWithPage(current_page-1<=0 ?current_page: current_page-1)}></img>
+        <span>{current_page}</span> of<span>{total}</span>
+        <img src='/images/next.svg' onClick={() => this.makeHttpRequestWithPage(current_page+1>total ? current_page: current_page+1)}></img>
       </Footer>
       </Container>
-        </MainPart>    
-    )
+        </MainPart> 
+    );
+  }
+
 }
 
-export default MainPage
+export default withStyles(useStyles,{withTheme:true})(Hello);
 
 const MainPart=styled.div `
 flex-grow:1;

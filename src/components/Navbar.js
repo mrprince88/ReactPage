@@ -56,6 +56,7 @@ export default Navbar
 const Sidebar=styled.div `
 display:flex;
 width:250px;
+min-width: 200px;
 height: 100vh;
 padding-top: 43px;
 padding-left: 34px;
