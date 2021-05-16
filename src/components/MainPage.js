@@ -6,6 +6,7 @@ import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
+import Header from "./Header.js";
 
 
 const useStyles = makeStyles({
@@ -35,30 +36,26 @@ height:'65px',
 }
 });
 
-function createData(owner, EndDate, Profits, Losses, Phone) {
-  return { owner, EndDate, Profits, Losses, Phone };
-}
-
-const rows = [
-  createData('Savannah Nguyen', 159, 6.0, 24, 4.0),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-  createData('Eclair', 262, 16.0, 24, 6.0),
-  createData('Cupcake', 305, 3.7, 67, 4.3),
-  createData('Gingerbread', 356, 16.0, 49, 3.9),
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-  createData('Eclair', 262, 16.0, 24, 6.0),
-  createData('Cupcake', 305, 3.7, 67, 4.3),
-  createData('Gingerbread', 356, 16.0, 49, 3.9),
-];
-
 function MainPage() {
   const classes = useStyles();
+  const [rows, setUsers] = React.useState([]);
+  const [totalPages,setTotalPages]= React.useState([]);
+  const [page,setPage]=React.useState([]);
+  const f = async () => {
+    const res = await fetch("https://reqres.in/api/users/?page=2");
+    const json = await res.json();
+    setUsers(json.data);
+    setPage(json.page);
+    setTotalPages(json.total_pages);
+  };
+    React.useEffect(() => {
+      f();
+    }, []);
+  
+    console.log(page);
     return (
         <MainPart>
-          <Heading>
-           <h>Overview</h>
-           </Heading>
+      <Header />
       <Container>
       <Table>
       <colgroup>
@@ -74,26 +71,31 @@ function MainPage() {
             <TableCell className={classes.head}>End date</TableCell>
             <TableCell className={classes.head}>Profits</TableCell>
             <TableCell className={classes.head}>Losses</TableCell>
-            <TableCell className={classes.head}>Phone</TableCell>
+            <TableCell className={classes.head}>Email</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {rows.map((row) => (
-            <TableRow className={classes.data} key={row.name}>
+            <TableRow className={classes.data} key={row.id}>
               <TableCell className={classes.entry}component="th" scope="row">
                 <UserImg>
-                  <img src='https://picsum.photos/40'></img>
-                <span>{row.owner}</span>
+                  <img src={row.avatar}></img>
+                <span>{row.first_name} {row.last_name}</span>
                 </UserImg>
               </TableCell>
-              <TableCell className={classes.entry}>{row.EndDate}</TableCell>
-              <TableCell className={classes.entry}>{row.Profits}</TableCell>
-              <TableCell className={classes.entry}>{row.Losses}</TableCell>
-              <TableCell className={classes.entry}>{row.Phone}</TableCell>
+              <TableCell className={classes.entry}>12/3/12</TableCell>
+              <TableCell className={classes.entry}>${Math.random().toFixed(2)}</TableCell>
+              <TableCell className={classes.entry}>${Math.random().toFixed(2)}</TableCell>
+              <TableCell className={classes.entry}>{row.email}</TableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
+      <Footer>
+        <img src='/images/back.svg'></img>
+        <span>{page}</span> of<span>{totalPages}</span>
+        <img src='/images/next.svg'></img>
+      </Footer>
       </Container>
         </MainPart>    
     )
@@ -110,19 +112,12 @@ h {
 }
 `
 
-const Heading=styled.div `
-padding-top:55px;
-padding-left: 82px; 
-margin-bottom: 38px;
-h {
-font-family: Lato,
-font-weight: 400,
-}
-`
-
 const Container=styled.div `
 padding-left:64px;
 padding-right:62px;
+display: flex;
+flex-direction: column;
+align-items: center;
 `
 
 const UserImg= styled.div `
@@ -137,8 +132,27 @@ display: flex;
 margin-right:23px;
 }
 span {
-  color:'#414141',
+color:'#414141',
 fontSize:'14px',
 text-align: center
+}
+`
+
+const Footer=styled.div `
+margin-top: 20px;
+display: flex;
+align-items: center;
+span {
+display: flex;
+width: 35.5px;
+margin-left:15px;
+margin-right: 19px;
+font-size:14px;
+height: 35.5px;
+background: #EEF2F5;
+border-radius: 5px;
+color:#414141;
+align-items: center;
+justify-content: center;
 }
 `
