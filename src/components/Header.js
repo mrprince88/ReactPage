@@ -4,7 +4,7 @@ import styled from 'styled-components';
 function Header() {
     return (
             <Heading>
-           <h1>Overview</h1>
+           <h1><span>Overview</span></h1>
            <div>
            <button className='btn2'>...</button>
            <button className='btn1'>Add</button>
@@ -23,9 +23,10 @@ margin-bottom: 38px;
 display: flex;
 align-items: center;
 h1 {
-font-family: Lato,
-font-weight: 400,
-display: flex,
+span {
+  font-weight: 400;
+  fontSize: 39px;
+}
 }
 div {
   margin-left: auto;
