@@ -62,9 +62,8 @@ class Hello extends Component {
 
 
   makeHttpRequestWithPage = async pageNumber => {
-    console.log(this.state.current_page+" "+pageNumber);
     if(this.state.current_page===pageNumber)
-    return;
+      return;
     const response=await fetch(`https://reqres.in/api/users?page=${pageNumber}`);
     const data = await response.json();
     this.setState({

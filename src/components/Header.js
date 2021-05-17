@@ -21,6 +21,7 @@ padding-left: 82px;
 padding-right: 73px; 
 margin-bottom: 38px;
 display: flex;
+align-items: center;
 h1 {
 font-family: Lato,
 font-weight: 400,
