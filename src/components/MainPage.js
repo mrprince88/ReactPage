@@ -57,7 +57,6 @@ class Hello extends Component {
 
   componentWillMount() {
     this.makeHttpRequestWithPage(1);
-    this.render();
   }
 
 
